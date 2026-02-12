@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from '@/i18n';
 import { Mail, Sparkles } from 'lucide-react';
 
 export function Newsletter() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,8 +21,8 @@ export function Newsletter() {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     toast({
-      title: '💄 Welcome to our beauty community!',
-      description: 'Thank you for subscribing! Check your inbox for exclusive offers.',
+      title: `💄 ${t('newsletter.successTitle')}`,
+      description: t('newsletter.successDesc'),
     });
 
     setEmail('');
@@ -40,19 +42,19 @@ export function Newsletter() {
           </div>
 
           <h2 className="mb-3 text-3xl md:text-4xl font-bold">
-            Join Our Beauty Circle 💅
+            {t('newsletter.title')} 💅
           </h2>
 
           <p className="mb-6 text-muted-foreground text-lg">
-            Get exclusive access to new arrivals, beauty tips, and special offers.
-            Plus, enjoy <span className="font-semibold text-primary">15% off</span> your first order!
+            {t('newsletter.subtitle')}{' '}
+            {t('newsletter.discount')} <span className="font-semibold text-primary">{t('newsletter.discountAmount')}</span> {t('newsletter.discountSuffix')}
           </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
             <div className="relative flex-1">
               <Input
                 type="email"
-                placeholder="Enter your email address"
+                placeholder={t('newsletter.placeholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -66,17 +68,17 @@ export function Newsletter() {
               className="h-12 px-8 bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
             >
               {loading ? (
-                'Subscribing...'
+                t('newsletter.subscribing')
               ) : (
                 <>
-                  Subscribe <Sparkles className="ml-2 h-4 w-4" />
+                  {t('newsletter.subscribe')} <Sparkles className="ml-2 h-4 w-4" />
                 </>
               )}
             </Button>
           </form>
 
           <p className="mt-4 text-xs text-muted-foreground">
-            ✨ No spam, ever. Unsubscribe anytime.
+            ✨ {t('newsletter.noSpam')}
           </p>
         </div>
       </div>

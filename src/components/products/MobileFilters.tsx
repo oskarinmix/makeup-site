@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { ProductFilters } from './ProductFilters';
+import { useTranslation } from '@/i18n';
 import { SlidersHorizontal } from 'lucide-react';
 
 interface MobileFiltersProps {
@@ -20,20 +21,21 @@ interface MobileFiltersProps {
 
 export function MobileFilters({ categories, brands }: MobileFiltersProps) {
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant="outline" size="sm" className="lg:hidden">
           <SlidersHorizontal className="h-4 w-4 mr-2" />
-          Filters
+          {t('mobileFilters.filters')}
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-80 overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>Filter Products</SheetTitle>
+          <SheetTitle>{t('mobileFilters.filterProducts')}</SheetTitle>
           <SheetDescription>
-            Refine your search by category, brand, or keywords
+            {t('mobileFilters.refineSearch')}
           </SheetDescription>
         </SheetHeader>
         <div className="mt-6">

@@ -8,11 +8,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useTranslation } from '@/i18n';
 
 export function ProductSort() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentSort = searchParams.get('sort') || 'name';
+  const { t } = useTranslation();
 
   const handleSortChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -23,13 +25,13 @@ export function ProductSort() {
   return (
     <Select value={currentSort} onValueChange={handleSortChange}>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Sort by" />
+        <SelectValue placeholder={t('products.sortBy')} />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="name">Name: A-Z</SelectItem>
-        <SelectItem value="name-desc">Name: Z-A</SelectItem>
-        <SelectItem value="price-low">Price: Low to High</SelectItem>
-        <SelectItem value="price-high">Price: High to Low</SelectItem>
+        <SelectItem value="name">{t('products.nameAZ')}</SelectItem>
+        <SelectItem value="name-desc">{t('products.nameZA')}</SelectItem>
+        <SelectItem value="price-low">{t('products.priceLowHigh')}</SelectItem>
+        <SelectItem value="price-high">{t('products.priceHighLow')}</SelectItem>
       </SelectContent>
     </Select>
   );

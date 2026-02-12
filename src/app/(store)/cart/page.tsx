@@ -6,10 +6,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { CartItem } from '@/components/cart/CartItem';
 import { CartSummary } from '@/components/cart/CartSummary';
 import { useCartStore } from '@/store/cartStore';
+import { useTranslation } from '@/i18n';
 import { ShoppingBag } from 'lucide-react';
 
 export default function CartPage() {
   const items = useCartStore((state) => state.items);
+  const { t } = useTranslation();
 
   if (items.length === 0) {
     return (
@@ -18,12 +20,12 @@ export default function CartPage() {
           <div className="flex justify-center">
             <ShoppingBag className="h-24 w-24 text-muted-foreground" />
           </div>
-          <h1 className="text-3xl font-bold">Your Cart is Empty</h1>
+          <h1 className="text-3xl font-bold">{t('cart.empty')}</h1>
           <p className="text-muted-foreground">
-            Looks like you haven't added anything to your cart yet.
+            {t('cart.emptyMessage')}
           </p>
           <Button size="lg" asChild>
-            <Link href="/products">Start Shopping</Link>
+            <Link href="/products">{t('cart.startShopping')}</Link>
           </Button>
         </div>
       </div>
@@ -32,7 +34,7 @@ export default function CartPage() {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8">Shopping Cart</h1>
+      <h1 className="text-4xl font-bold mb-8">{t('cart.title')}</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
@@ -53,11 +55,11 @@ export default function CartPage() {
               <CartSummary />
 
               <Button className="w-full" size="lg" asChild>
-                <Link href="/checkout">Proceed to Checkout</Link>
+                <Link href="/checkout">{t('cart.proceedToCheckout')}</Link>
               </Button>
 
               <Button variant="outline" className="w-full" asChild>
-                <Link href="/products">Continue Shopping</Link>
+                <Link href="/products">{t('cart.continueShopping')}</Link>
               </Button>
             </CardContent>
           </Card>

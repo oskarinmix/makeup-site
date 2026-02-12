@@ -1,4 +1,7 @@
+'use client';
+
 import { Badge } from '@/components/ui/badge';
+import { useTranslation } from '@/i18n';
 import type { StockStatus } from '@/types/product';
 
 interface StockBadgeProps {
@@ -14,6 +17,8 @@ export function StockBadge({
   lowStockThreshold = 10,
   className
 }: StockBadgeProps) {
+  const { t } = useTranslation();
+
   // Calculate status if not provided or invalid
   let calculatedStatus: StockStatus;
 
@@ -35,24 +40,24 @@ export function StockBadge({
 
   const variants = {
     'in-stock': {
-      label: 'In Stock',
+      labelKey: 'stock.inStock' as const,
       className: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100',
     },
     'low-stock': {
-      label: 'Low Stock',
+      labelKey: 'stock.lowStock' as const,
       className: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-100',
     },
     'out-of-stock': {
-      label: 'Out of Stock',
+      labelKey: 'stock.outOfStock' as const,
       className: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100',
     },
   };
 
-  const { label, className: variantClassName } = variants[calculatedStatus];
+  const { labelKey, className: variantClassName } = variants[calculatedStatus];
 
   return (
     <Badge variant="outline" className={`${variantClassName} ${className || ''}`}>
-      {label}
+      {t(labelKey)}
     </Badge>
   );
 }

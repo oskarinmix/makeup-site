@@ -6,6 +6,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { StockBadge } from './StockBadge';
 import { AddToCartButton } from '@/components/cart/AddToCartButton';
+import { useTranslation } from '@/i18n';
 import type { Product } from '@/types/product';
 import { formatPrice } from '@/lib/utils';
 
@@ -17,6 +18,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const imageUrl = product.Images?.[0]?.url || '/placeholder-product.svg';
   const hasDiscount =
     product['Compare At Price'] && product['Compare At Price'] > product.Price;
+  const { t } = useTranslation();
 
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -30,10 +32,10 @@ export function ProductCard({ product }: ProductCardProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {hasDiscount && (
-            <Badge className="absolute top-2 right-2 bg-accent">Sale</Badge>
+            <Badge className="absolute top-2 right-2 bg-accent">{t('products.sale')}</Badge>
           )}
           {product.Featured && (
-            <Badge className="absolute top-2 left-2 bg-primary">Featured</Badge>
+            <Badge className="absolute top-2 left-2 bg-primary">{t('products.featured')}</Badge>
           )}
         </div>
       </Link>

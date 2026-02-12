@@ -1,19 +1,24 @@
+'use client';
+
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
+import { useTranslation } from '@/i18n';
 
 interface BrandsShowcaseProps {
   brands: string[];
 }
 
 export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-8">
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-3">
-          Featured Brands ✨
+          {t('brands.featuredBrands')} ✨
         </h2>
         <p className="text-muted-foreground text-lg">
-          Discover products from our carefully selected beauty brands
+          {t('brands.discoverProducts')}
         </p>
       </div>
 
@@ -40,7 +45,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     variant="outline"
                     className="mt-2 mx-auto flex w-fit bg-background"
                   >
-                    Shop Now
+                    {t('brands.shopNow')}
                   </Badge>
                 </div>
               </div>

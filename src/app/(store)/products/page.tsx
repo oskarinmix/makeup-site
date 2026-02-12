@@ -2,6 +2,9 @@ import { ProductGrid } from '@/components/products/ProductGrid';
 import { ProductFilters } from '@/components/products/ProductFilters';
 import { MobileFilters } from '@/components/products/MobileFilters';
 import { ProductSort } from '@/components/products/ProductSort';
+import { ProductsPageHeader } from '@/components/products/ProductsPageHeader';
+import { ProductsPageInfo } from '@/components/products/ProductsPageInfo';
+import { FiltersHeading } from '@/components/products/FiltersHeading';
 import { getProducts, getCategories } from '@/lib/airtable';
 
 interface ProductsPageProps {
@@ -65,18 +68,13 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-foreground mb-4">Our Products</h1>
-        <p className="text-muted-foreground">
-          Discover our curated collection of premium makeup products
-        </p>
-      </div>
+      <ProductsPageHeader />
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Filters Sidebar - Desktop Only */}
         <aside className="hidden lg:block lg:w-64 flex-shrink-0">
           <div className="sticky top-4 p-6 bg-secondary/30 rounded-lg border">
-            <h2 className="font-semibold text-lg mb-4">Filters</h2>
+            <FiltersHeading />
             <ProductFilters categories={categories} brands={uniqueBrands} />
           </div>
         </aside>
@@ -86,10 +84,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
             <div className="flex items-center gap-3">
               <MobileFilters categories={categories} brands={uniqueBrands} />
-              <p className="text-sm text-muted-foreground">
-                {products.length} {products.length === 1 ? 'product' : 'products'}{' '}
-                found
-              </p>
+              <ProductsPageInfo count={products.length} />
             </div>
 
             <div className="flex gap-4 items-center">

@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
+import { useTranslation } from '@/i18n';
 import type { Category } from '@/types/category';
 
 interface CategoriesShowcaseProps {
@@ -23,14 +26,16 @@ const categoryColors: Record<string, string> = {
 };
 
 export function CategoriesShowcase({ categories }: CategoriesShowcaseProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-8">
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-3">
-          Shop by Category 🛍️
+          {t('categories.shopByCategory')} 🛍️
         </h2>
         <p className="text-muted-foreground text-lg">
-          Explore our curated collection of premium beauty products
+          {t('categories.exploreCollection')}
         </p>
       </div>
 

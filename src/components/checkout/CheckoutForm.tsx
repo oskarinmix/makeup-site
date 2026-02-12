@@ -24,18 +24,19 @@ import {
 } from '@/components/ui/select';
 import { useCartStore } from '@/store/cartStore';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from '@/i18n';
 import type { OrderFormData } from '@/types/order';
 
-const checkoutSchema = z.object({
-  customerName: z.string().min(2, 'Name must be at least 2 characters'),
-  customerEmail: z.string().email('Invalid email address'),
+const createCheckoutSchema = (t: (key: string) => string) => z.object({
+  customerName: z.string().min(2, t('checkout.validation.nameMin')),
+  customerEmail: z.string().email(t('checkout.validation.invalidEmail')),
   customerPhone: z.string().optional(),
-  shippingAddress: z.string().min(5, 'Address is required'),
-  shippingCity: z.string().min(2, 'City is required'),
-  shippingState: z.string().min(2, 'State is required'),
-  shippingPostalCode: z.string().min(3, 'Postal code is required'),
-  paymentMethod: z.string().min(1, 'Please select a payment method'),
-  shippingMethod: z.string().min(1, 'Please select a shipping method'),
+  shippingAddress: z.string().min(5, t('checkout.validation.addressRequired')),
+  shippingCity: z.string().min(2, t('checkout.validation.cityRequired')),
+  shippingState: z.string().min(2, t('checkout.validation.stateRequired')),
+  shippingPostalCode: z.string().min(3, t('checkout.validation.postalRequired')),
+  paymentMethod: z.string().min(1, t('checkout.validation.selectPayment')),
+  shippingMethod: z.string().min(1, t('checkout.validation.selectShipping')),
   notes: z.string().optional(),
 });
 
@@ -46,11 +47,14 @@ interface CheckoutFormProps {
 export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
   const router = useRouter();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
   const [shippingMethods, setShippingMethods] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { items, clearCart, getTotalPrice } = useCartStore();
+
+  const checkoutSchema = createCheckoutSchema(t);
 
   const form = useForm<OrderFormData>({
     resolver: zodResolver(checkoutSchema),
@@ -85,8 +89,8 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
       } catch (error) {
         console.error('Error fetching methods:', error);
         toast({
-          title: 'Error',
-          description: 'Failed to load payment and shipping methods.',
+          title: t('common.error'),
+          description: t('checkout.loadError'),
           variant: 'destructive',
         });
       } finally {
@@ -165,16 +169,16 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
 
       clearCart();
       toast({
-        title: 'Order placed successfully!',
-        description: `Order number: ${order.orderNumber}`,
+        title: t('checkout.orderPlaced'),
+        description: `${t('checkout.orderNumber')} ${order.orderNumber}`,
       });
 
       router.push(`/checkout/success?order=${order.id}`);
     } catch (error: any) {
       console.error('Order submission error:', error);
       toast({
-        title: 'Error',
-        description: error?.message || 'Failed to place order. Please try again.',
+        title: t('common.error'),
+        description: error?.message || t('checkout.submitError'),
         variant: 'destructive',
       });
     } finally {
@@ -190,7 +194,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
           name="customerName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>{t('checkout.fullName')}</FormLabel>
               <FormControl>
                 <Input placeholder="Jane Doe" {...field} />
               </FormControl>
@@ -204,7 +208,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
           name="customerEmail"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('checkout.email')}</FormLabel>
               <FormControl>
                 <Input type="email" placeholder="jane@example.com" {...field} />
               </FormControl>
@@ -218,7 +222,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
           name="customerPhone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone (Optional)</FormLabel>
+              <FormLabel>{t('checkout.phone')}</FormLabel>
               <FormControl>
                 <Input type="tel" placeholder="+1 (555) 123-4567" {...field} />
               </FormControl>
@@ -232,7 +236,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
           name="shippingAddress"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Shipping Address</FormLabel>
+              <FormLabel>{t('checkout.shippingAddress')}</FormLabel>
               <FormControl>
                 <Input placeholder="123 Main St, Apt 4B" {...field} />
               </FormControl>
@@ -247,7 +251,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
             name="shippingCity"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>City</FormLabel>
+                <FormLabel>{t('checkout.city')}</FormLabel>
                 <FormControl>
                   <Input placeholder="New York" {...field} />
                 </FormControl>
@@ -261,7 +265,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
             name="shippingState"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>State</FormLabel>
+                <FormLabel>{t('checkout.state')}</FormLabel>
                 <FormControl>
                   <Input placeholder="NY" {...field} />
                 </FormControl>
@@ -276,7 +280,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
           name="shippingPostalCode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Postal Code</FormLabel>
+              <FormLabel>{t('checkout.postalCode')}</FormLabel>
               <FormControl>
                 <Input placeholder="10001" {...field} />
               </FormControl>
@@ -286,7 +290,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
         />
 
         <div className="pt-4">
-          <h3 className="text-lg font-semibold mb-4">Payment & Shipping</h3>
+          <h3 className="text-lg font-semibold mb-4">{t('checkout.paymentShipping')}</h3>
 
           <div className="space-y-6">
             <FormField
@@ -294,7 +298,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
               name="paymentMethod"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Payment Method</FormLabel>
+                  <FormLabel>{t('checkout.paymentMethod')}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -302,7 +306,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select payment method" />
+                        <SelectValue placeholder={t('checkout.selectPayment')} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -331,7 +335,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
               name="shippingMethod"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Shipping Method</FormLabel>
+                  <FormLabel>{t('checkout.shippingMethod')}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -339,7 +343,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select shipping method" />
+                        <SelectValue placeholder={t('checkout.selectShipping')} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -348,7 +352,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
                         const subtotal = getTotalPrice();
                         const freeThreshold = method['Free Shipping Threshold'] || null;
                         const isFree = freeThreshold && subtotal >= freeThreshold;
-                        const displayCost = isFree ? 'FREE' : `$${cost.toFixed(2)}`;
+                        const displayCost = isFree ? t('checkout.free') : `$${cost.toFixed(2)}`;
 
                         return (
                           <SelectItem key={method.id} value={method.Name}>
@@ -362,8 +366,8 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
                                   </span>
                                 </div>
                                 <span className="text-xs text-muted-foreground">
-                                  {method.Description} • {method['Estimated Days']} days
-                                  {isFree && ' • Free shipping applied!'}
+                                  {method.Description} • {method['Estimated Days']} {t('checkout.days')}
+                                  {isFree && ` • ${t('checkout.freeShippingApplied')}`}
                                 </span>
                               </div>
                             </div>
@@ -384,9 +388,9 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Order Notes (Optional)</FormLabel>
+              <FormLabel>{t('checkout.orderNotes')}</FormLabel>
               <FormControl>
-                <Input placeholder="Any special instructions..." {...field} />
+                <Input placeholder={t('checkout.notesPlaceholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -394,7 +398,7 @@ export function CheckoutForm({ onShippingMethodChange }: CheckoutFormProps) {
         />
 
         <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
-          {isSubmitting ? 'Processing...' : 'Place Order'}
+          {isSubmitting ? t('checkout.processing') : t('checkout.placeOrder')}
         </Button>
       </form>
     </Form>

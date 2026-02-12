@@ -10,7 +10,10 @@
       "Bash(node scripts/test-connection.js:*)",
       "Bash(npm run dev:*)",
       "Bash(node scripts/debug-products.js:*)",
-      "Bash(npx shadcn@latest add:*)"
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(tree:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

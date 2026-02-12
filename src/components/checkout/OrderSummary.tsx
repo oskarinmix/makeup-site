@@ -5,6 +5,7 @@ import { useCartStore } from '@/store/cartStore';
 import { formatPrice } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useTranslation } from '@/i18n';
 
 interface OrderSummaryProps {
   selectedShippingMethod?: any;
@@ -14,10 +15,11 @@ export function OrderSummary({ selectedShippingMethod }: OrderSummaryProps) {
   const { items, getTotalItems, getTotalPrice } = useCartStore();
   const totalItems = getTotalItems();
   const subtotal = getTotalPrice();
+  const { t } = useTranslation();
 
   // Calculate shipping cost
   let shippingCost = 0;
-  let shippingDisplay = 'Select shipping method';
+  let shippingDisplay = t('checkout.selectShippingMethod');
 
   if (selectedShippingMethod) {
     const cost = selectedShippingMethod.Cost || 0;
@@ -26,7 +28,7 @@ export function OrderSummary({ selectedShippingMethod }: OrderSummaryProps) {
 
     shippingCost = isFree ? 0 : cost;
     shippingDisplay = isFree
-      ? 'FREE'
+      ? t('checkout.free')
       : formatPrice(shippingCost);
   }
 
@@ -35,7 +37,7 @@ export function OrderSummary({ selectedShippingMethod }: OrderSummaryProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Order Summary</CardTitle>
+        <CardTitle>{t('checkout.orderSummary')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-3">
@@ -52,7 +54,7 @@ export function OrderSummary({ selectedShippingMethod }: OrderSummaryProps) {
               </div>
               <div className="flex-1">
                 <p className="font-medium text-sm line-clamp-2">{item.name}</p>
-                <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
+                <p className="text-sm text-muted-foreground">{t('cart.qty')} {item.quantity}</p>
               </div>
               <div className="text-right">
                 <p className="font-medium text-sm">
@@ -68,12 +70,12 @@ export function OrderSummary({ selectedShippingMethod }: OrderSummaryProps) {
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">
-              Subtotal ({totalItems} items)
+              {t('cart.subtotal')} ({totalItems} {t('cart.items')})
             </span>
             <span className="font-medium">{formatPrice(subtotal)}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Shipping</span>
+            <span className="text-muted-foreground">{t('checkout.shipping')}</span>
             <span className="font-medium">
               {selectedShippingMethod ? (
                 <span className={shippingCost === 0 && selectedShippingMethod ? 'text-green-600 font-semibold' : ''}>
@@ -89,12 +91,12 @@ export function OrderSummary({ selectedShippingMethod }: OrderSummaryProps) {
         <Separator />
 
         <div className="flex justify-between font-bold text-lg">
-          <span>Total</span>
+          <span>{t('cart.total')}</span>
           <span className="text-primary">{formatPrice(totalPrice)}</span>
         </div>
 
         <p className="text-xs text-muted-foreground">
-          Payment will be verified manually after order placement.
+          {t('checkout.paymentVerificationNote')}
         </p>
       </CardContent>
     </Card>

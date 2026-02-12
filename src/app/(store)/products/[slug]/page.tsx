@@ -4,8 +4,15 @@ import { getProductBySlug } from '@/lib/airtable';
 import { formatPrice } from '@/lib/utils';
 import { StockBadge } from '@/components/products/StockBadge';
 import { AddToCartButton } from '@/components/cart/AddToCartButton';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import {
+  SaleBadge,
+  DescriptionHeading,
+  IngredientsHeading,
+  ShadeColorLabel,
+  SizeLabel,
+  SkuLabel,
+} from '@/components/products/ProductDetailLabels';
 
 interface ProductPageProps {
   params: Promise<{
@@ -38,11 +45,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
             />
-            {hasDiscount && (
-              <Badge className="absolute top-4 right-4 bg-accent text-lg px-4 py-2">
-                Sale
-              </Badge>
-            )}
+            {hasDiscount && <SaleBadge />}
           </div>
 
           {product.Images && product.Images.length > 1 && (
@@ -100,7 +103,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           {product.Description && (
             <div>
-              <h2 className="font-semibold text-lg mb-2">Description</h2>
+              <DescriptionHeading />
               <p className="text-muted-foreground whitespace-pre-line">
                 {product.Description}
               </p>
@@ -110,19 +113,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div className="space-y-3">
             {product['Shade/Color'] && (
               <div className="flex justify-between">
-                <span className="font-medium">Shade/Color:</span>
+                <ShadeColorLabel />
                 <span className="text-muted-foreground">{product['Shade/Color']}</span>
               </div>
             )}
             {product.Weight && (
               <div className="flex justify-between">
-                <span className="font-medium">Size:</span>
+                <SizeLabel />
                 <span className="text-muted-foreground">{product.Weight}</span>
               </div>
             )}
             {product.SKU && (
               <div className="flex justify-between">
-                <span className="font-medium">SKU:</span>
+                <SkuLabel />
                 <span className="text-muted-foreground">{product.SKU}</span>
               </div>
             )}
@@ -141,7 +144,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           {product.Ingredients && (
             <div>
-              <h2 className="font-semibold text-lg mb-2">Ingredients</h2>
+              <IngredientsHeading />
               <p className="text-sm text-muted-foreground">{product.Ingredients}</p>
             </div>
           )}

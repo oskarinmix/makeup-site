@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -12,6 +11,7 @@ import {
 import { useCartStore } from '@/store/cartStore';
 import { CartItem } from '@/components/cart/CartItem';
 import { CartSummary } from '@/components/cart/CartSummary';
+import { useTranslation } from '@/i18n';
 
 interface CartDrawerProps {
   open: boolean;
@@ -20,19 +20,20 @@ interface CartDrawerProps {
 
 export function CartDrawer({ open, onClose }: CartDrawerProps) {
   const items = useCartStore((state) => state.items);
+  const { t } = useTranslation();
 
   return (
     <Sheet open={open} onOpenChange={onClose}>
       <SheetContent className="w-full sm:max-w-lg">
         <SheetHeader>
-          <SheetTitle>Shopping Cart</SheetTitle>
+          <SheetTitle>{t('cart.title')}</SheetTitle>
         </SheetHeader>
 
         {items.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full space-y-4">
-            <p className="text-muted-foreground">Your cart is empty</p>
+            <p className="text-muted-foreground">{t('cart.emptyMessage')}</p>
             <Button onClick={onClose} asChild>
-              <Link href="/products">Continue Shopping</Link>
+              <Link href="/products">{t('cart.continueShopping')}</Link>
             </Button>
           </div>
         ) : (
@@ -48,7 +49,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
 
               <div className="space-y-2">
                 <Button className="w-full" size="lg" asChild onClick={onClose}>
-                  <Link href="/checkout">Proceed to Checkout</Link>
+                  <Link href="/checkout">{t('cart.proceedToCheckout')}</Link>
                 </Button>
                 <Button
                   variant="outline"
@@ -56,7 +57,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                   onClick={onClose}
                   asChild
                 >
-                  <Link href="/cart">View Full Cart</Link>
+                  <Link href="/cart">{t('cart.viewFullCart')}</Link>
                 </Button>
               </div>
             </div>

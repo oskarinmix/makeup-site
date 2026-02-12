@@ -5,6 +5,7 @@ import { ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/cartStore';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from '@/i18n';
 import type { Product } from '@/types/product';
 
 interface AddToCartButtonProps {
@@ -23,6 +24,7 @@ export function AddToCartButton({
   const [isAdding, setIsAdding] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const handleAddToCart = async () => {
     setIsAdding(true);
@@ -31,13 +33,13 @@ export function AddToCartButton({
       addItem(product, quantity);
 
       toast({
-        title: 'Added to cart',
-        description: `${product.Name} has been added to your cart.`,
+        title: t('cart.addedToCart'),
+        description: `${product.Name} ${t('cart.addedToCartDesc')}`,
       });
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Failed to add item to cart. Please try again.',
+        title: t('cart.error'),
+        description: t('cart.addError'),
         variant: 'destructive',
       });
     } finally {
@@ -52,7 +54,7 @@ export function AddToCartButton({
       className={className}
     >
       <ShoppingCart className="mr-2 h-4 w-4" />
-      {isAdding ? 'Adding...' : 'Add to Cart'}
+      {isAdding ? t('cart.adding') : t('cart.addToCart')}
     </Button>
   );
 }

@@ -1,6 +1,11 @@
+'use client';
+
 import Link from 'next/link';
+import { useTranslation } from '@/i18n';
 
 export function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="border-t bg-muted/50">
       <div className="container mx-auto px-4 py-8">
@@ -10,47 +15,47 @@ export function Footer() {
               GlamStore
             </h3>
             <p className="text-sm text-muted-foreground">
-              Premium makeup products for the modern beauty enthusiast.
+              {t('layout.tagline')}
             </p>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
+            <h4 className="font-semibold mb-4">{t('layout.quickLinks')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/products" className="text-muted-foreground hover:text-primary transition-colors">
-                  Products
+                  {t('nav.products')}
                 </Link>
               </li>
               <li>
                 <Link href="/categories" className="text-muted-foreground hover:text-primary transition-colors">
-                  Categories
+                  {t('nav.categories')}
                 </Link>
               </li>
               <li>
                 <Link href="/cart" className="text-muted-foreground hover:text-primary transition-colors">
-                  Cart
+                  {t('layout.cart')}
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Customer Service</h4>
+            <h4 className="font-semibold mb-4">{t('layout.customerService')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Contact Us
+                  {t('layout.contactUs')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Shipping Info
+                  {t('layout.shippingInfo')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Returns
+                  {t('layout.returns')}
                 </a>
               </li>
             </ul>
@@ -58,7 +63,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} GlamStore. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} GlamStore. {t('layout.copyright')}</p>
         </div>
       </div>
     </footer>

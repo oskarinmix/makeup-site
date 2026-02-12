@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Search, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useTranslation } from '@/i18n';
 
 interface ProductFiltersProps {
   categories: Array<{ id: string; Name: string; Slug: string }>;
@@ -17,6 +18,7 @@ interface ProductFiltersProps {
 export function ProductFilters({ categories, brands }: ProductFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
 
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const selectedCategory = searchParams.get('category') || '';
@@ -57,14 +59,14 @@ export function ProductFilters({ categories, brands }: ProductFiltersProps) {
       {/* Search Bar */}
       <div>
         <Label htmlFor="search" className="text-sm font-medium mb-2 block">
-          Search Products
+          {t('products.searchProducts')}
         </Label>
         <form onSubmit={handleSearch} className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
             id="search"
             type="text"
-            placeholder="Search by name, description, brand..."
+            placeholder={t('products.searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 pr-10"
@@ -88,7 +90,7 @@ export function ProductFilters({ categories, brands }: ProductFiltersProps) {
 
       {/* Category Filters */}
       <div>
-        <Label className="text-sm font-medium mb-3 block">Categories</Label>
+        <Label className="text-sm font-medium mb-3 block">{t('products.categoriesLabel')}</Label>
         <div className="space-y-2">
           {categories.map((category) => (
             <button
@@ -118,7 +120,7 @@ export function ProductFilters({ categories, brands }: ProductFiltersProps) {
 
       {/* Brand Filters */}
       <div>
-        <Label className="text-sm font-medium mb-3 block">Brands</Label>
+        <Label className="text-sm font-medium mb-3 block">{t('products.brandsLabel')}</Label>
         <div className="space-y-2">
           {brands.map((brand) => (
             <button
@@ -150,7 +152,7 @@ export function ProductFilters({ categories, brands }: ProductFiltersProps) {
             variant="outline"
             className="w-full"
           >
-            Clear All Filters
+            {t('products.clearAllFilters')}
           </Button>
         </>
       )}
@@ -159,12 +161,12 @@ export function ProductFilters({ categories, brands }: ProductFiltersProps) {
       {hasActiveFilters && (
         <div className="space-y-2">
           <Label className="text-xs font-medium text-muted-foreground">
-            Active Filters:
+            {t('products.activeFilters')}
           </Label>
           <div className="flex flex-wrap gap-2">
             {searchQuery && (
               <Badge variant="secondary" className="gap-1">
-                Search: {searchQuery}
+                {t('products.search')} {searchQuery}
                 <button
                   onClick={() => {
                     setSearchQuery('');
