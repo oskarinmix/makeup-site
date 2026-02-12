@@ -27,7 +27,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/i18n';
 import type { OrderFormData } from '@/types/order';
 
-const createCheckoutSchema = (t: (key: string) => string) => z.object({
+const createCheckoutSchema = (t: (key: any) => string) => z.object({
   customerName: z.string().min(2, t('checkout.validation.nameMin')),
   customerEmail: z.string().email(t('checkout.validation.invalidEmail')),
   customerPhone: z.string().optional(),
