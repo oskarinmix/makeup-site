@@ -28,6 +28,4 @@ export interface Order extends OrderFormData {
   totalAmount: number;
   orderStatus: 'Pending' | 'Confirmed' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
   paymentStatus: 'Pending Review' | 'Verified' | 'Rejected';
-  paymentMethod?: string;
-  shippingMethod?: string;
 }
