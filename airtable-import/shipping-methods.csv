@@ -1,0 +1,6 @@
+Name,Description,Cost,Estimated Days,Icon,Active,Display Order,Free Shipping Threshold
+Standard Shipping,Standard delivery to your doorstep,5.99,5-7,📦,TRUE,1,50
+Express Shipping,Faster delivery for urgent orders,12.99,2-3,⚡,TRUE,2,
+Overnight Shipping,Next business day delivery,24.99,1,🚀,TRUE,3,
+Store Pickup,Pick up your order at our store,0,1,🏪,TRUE,4,
+International Shipping,Worldwide shipping available,29.99,10-15,🌍,FALSE,5,

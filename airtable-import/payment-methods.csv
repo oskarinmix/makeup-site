@@ -1,0 +1,7 @@
+Name,Description,Icon,Active,Display Order
+Credit/Debit Card,Pay securely with your credit or debit card,💳,TRUE,1
+PayPal,Fast and secure payment with PayPal,🅿️,TRUE,2
+Apple Pay,Quick checkout with Apple Pay,🍎,TRUE,3
+Google Pay,Pay easily with Google Pay,🔵,TRUE,4
+Bank Transfer,Direct bank transfer - Manual verification required,🏦,TRUE,5
+Cash on Delivery,Pay when you receive your order,💵,FALSE,6

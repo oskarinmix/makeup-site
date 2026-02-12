@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm cache clean:*)",
+      "Bash(npx shadcn@latest add button card badge dialog form input label select separator toast sheet skeleton dropdown-menu --yes --overwrite)",
+      "Bash(npx shadcn@latest add button card badge dialog form input label select separator sonner sheet skeleton dropdown-menu --yes --overwrite)",
+      "Bash(npm run build:*)",
+      "Bash(npm run setup:*)",
+      "Bash(node scripts/test-connection.js:*)",
+      "Bash(npm run dev:*)",
+      "Bash(node scripts/debug-products.js:*)",
+      "Bash(npx shadcn@latest add:*)"
+    ]
+  }
+}
