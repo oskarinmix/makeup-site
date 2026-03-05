@@ -3,7 +3,7 @@ export const en = {
   nav: {
     products: 'Products',
     categories: 'Categories',
-    trackOrder: 'Track Order',
+    trackOrder: 'Track Orders',
   },
 
   // Header/Footer
